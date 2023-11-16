@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Ellipse
+from IPython.display import display, clear_output
 
 
 class Viewer(object):
@@ -14,7 +15,6 @@ class Viewer(object):
         plt.close()
 
     def render(self, env, return_rgb_array=False):
-        plt.close()
         self.ax.clear()
 
         # Render your environment using Matplotlib here
@@ -29,6 +29,9 @@ class Viewer(object):
 
         plt.draw()
         plt.pause(0.001)
+        # Additional lines for Colab display
+        display(self.fig)
+        clear_output(wait=True)
 
     def _draw_grid(self):
         for r in range(self.rows + 1):
