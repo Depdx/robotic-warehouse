@@ -9,7 +9,7 @@ class Viewer(object):
         self.rows, self.cols = world_size
         self.grid_size = 30
         self.icon_size = 20
-        self.fig, self.ax = plt.subplots()
+        self.fig, self.ax = None, None
 
     def close(self):
         plt.close()
