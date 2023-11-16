@@ -49,12 +49,10 @@ class Viewer(object):
             )
 
     def _draw_shelves(self, env):
-        for shelf in env.warehouses[0].shelves:
+        for shelf in env.shelfs:
             x, y = shelf.x, shelf.y
             y = self.rows - y - 1
-            shelf_color = (
-                "lightblue" if shelf in env.warehouses[0].request_queue else "blue"
-            )
+            shelf_color = "lightblue" if shelf in env.request_queue else "blue"
             self.fig.add_trace(
                 go.Scatter(
                     x=[
@@ -81,7 +79,7 @@ class Viewer(object):
             )
 
     def _draw_goals(self, env):
-        for goal in env.warehouses[0].goals:
+        for goal in env.goals:
             x, y = goal
             y = self.rows - y - 1
             self.fig.add_trace(
@@ -109,7 +107,7 @@ class Viewer(object):
             )
 
     def _draw_agents(self, env):
-        for agent in env.warehouses[0].agents:
+        for agent in env.agents:
             col, row = agent.x, agent.y
             row = self.rows - row - 1
             radius = self.grid_size / 3
