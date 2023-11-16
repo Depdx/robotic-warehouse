@@ -14,6 +14,7 @@ class Viewer(object):
         plt.close()
 
     def render(self, env, return_rgb_array=False):
+        plt.close()
         self.ax.clear()
 
         # Render your environment using Matplotlib here
