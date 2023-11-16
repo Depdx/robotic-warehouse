@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Ellipse
 from IPython.display import display, clear_output
+from rware.warehouse import Direction
 
 
 class Viewer(object):
@@ -90,3 +91,25 @@ class Viewer(object):
                 facecolor=draw_color,
             )
             self.ax.add_patch(ellipse)
+
+        # Draw direction line
+        dx, dy = 0, 0
+        if agent.dir == Direction.RIGHT:
+            dx = self.grid_size / 2
+        elif agent.dir == Direction.LEFT:
+            dx = -self.grid_size / 2
+        elif agent.dir == Direction.UP:
+            dy = self.grid_size / 2
+        elif agent.dir == Direction.DOWN:
+            dy = -self.grid_size / 2
+
+        plt.arrow(
+            col * self.grid_size + self.grid_size / 2,
+            row * self.grid_size + self.grid_size / 2,
+            dx,
+            dy,
+            head_width=radius / 2,
+            head_length=radius / 2,
+            fc="black",
+            ec="black",
+        )
