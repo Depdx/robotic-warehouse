@@ -63,17 +63,19 @@ class ObserationType(Enum):
     FLATTENED = 1
     IMAGE = 2
 
+
 class ImageLayer(Enum):
     """
     Input layers of image-style observations
     """
-    SHELVES = 0 # binary layer indicating shelves (also indicates carried shelves)
-    REQUESTS = 1 # binary layer indicating requested shelves
-    AGENTS = 2 # binary layer indicating agents in the environment (no way to distinguish agents)
-    AGENT_DIRECTION = 3 # layer indicating agent directions as int (see Direction enum + 1 for values)
-    AGENT_LOAD = 4 # binary layer indicating agents with load
-    GOALS = 5 # binary layer indicating goal/ delivery locations
-    ACCESSIBLE = 6 # binary layer indicating accessible cells (all but occupied cells/ out of map)
+
+    SHELVES = 0  # binary layer indicating shelves (also indicates carried shelves)
+    REQUESTS = 1  # binary layer indicating requested shelves
+    AGENTS = 2  # binary layer indicating agents in the environment (no way to distinguish agents)
+    AGENT_DIRECTION = 3  # layer indicating agent directions as int (see Direction enum + 1 for values)
+    AGENT_LOAD = 4  # binary layer indicating agents with load
+    GOALS = 5  # binary layer indicating goal/ delivery locations
+    ACCESSIBLE = 6  # binary layer indicating accessible cells (all but occupied cells/ out of map)
 
 
 class Entity:
@@ -144,7 +146,6 @@ class Shelf(Entity):
 
 
 class Warehouse(gym.Env):
-
     metadata = {"render.modes": ["human", "rgb_array"]}
 
     def __init__(
@@ -160,16 +161,16 @@ class Warehouse(gym.Env):
         max_steps: Optional[int],
         reward_type: RewardType,
         layout: str = None,
-        observation_type: ObserationType=ObserationType.FLATTENED,
-        image_observation_layers: List[ImageLayer]=[
+        observation_type: ObserationType = ObserationType.FLATTENED,
+        image_observation_layers: List[ImageLayer] = [
             ImageLayer.SHELVES,
             ImageLayer.REQUESTS,
             ImageLayer.AGENTS,
             ImageLayer.GOALS,
-            ImageLayer.ACCESSIBLE
+            ImageLayer.ACCESSIBLE,
         ],
-        image_observation_directional: bool=True,
-        normalised_coordinates: bool=False,
+        image_observation_directional: bool = True,
+        normalised_coordinates: bool = False,
     ):
         """The robotic warehouse environment
 
@@ -252,7 +253,7 @@ class Warehouse(gym.Env):
         self._cur_inactive_steps = None
         self._cur_steps = 0
         self.max_steps = max_steps
-        
+
         self.normalised_coordinates = normalised_coordinates
 
         sa_action_space = [len(Action), *msg_bits * (2,)]
@@ -358,7 +359,9 @@ class Warehouse(gym.Env):
             if layer == ImageLayer.AGENT_DIRECTION:
                 # directions as int
                 layer_min = np.zeros(observation_shape, dtype=np.float32)
-                layer_max = np.ones(observation_shape, dtype=np.float32) * max([d.value + 1 for d in Direction])
+                layer_max = np.ones(observation_shape, dtype=np.float32) * max(
+                    [d.value + 1 for d in Direction]
+                )
             else:
                 # binary layer
                 layer_min = np.zeros(observation_shape, dtype=np.float32)
@@ -391,10 +394,10 @@ class Warehouse(gym.Env):
 
         if self.normalised_coordinates:
             location_space = spaces.Box(
-                    low=0.0,
-                    high=1.0,
-                    shape=(2,),
-                    dtype=np.float32,
+                low=0.0,
+                high=1.0,
+                shape=(2,),
+                dtype=np.float32,
             )
         else:
             location_space = spaces.MultiDiscrete(
@@ -529,13 +532,13 @@ class Warehouse(gym.Env):
                 # rotate image to be in direction of agent
                 if agent.dir == Direction.DOWN:
                     # rotate by 180 degrees (clockwise)
-                    obs = np.rot90(obs, k=2, axes=(1,2))
+                    obs = np.rot90(obs, k=2, axes=(1, 2))
                 elif agent.dir == Direction.LEFT:
                     # rotate by 90 degrees (clockwise)
-                    obs = np.rot90(obs, k=3, axes=(1,2))
+                    obs = np.rot90(obs, k=3, axes=(1, 2))
                 elif agent.dir == Direction.RIGHT:
                     # rotate by 270 degrees (clockwise)
-                    obs = np.rot90(obs, k=1, axes=(1,2))
+                    obs = np.rot90(obs, k=1, axes=(1, 2))
                 # no rotation needed for UP direction
             return obs
 
@@ -608,7 +611,7 @@ class Warehouse(gym.Env):
                     )
 
             return obs.vector
- 
+
         # write dictionary observations
         obs = {}
         if self.normalised_coordinates:
@@ -764,7 +767,6 @@ class Warehouse(gym.Env):
                     if agent_id > 0:
                         commited_agents.add(agent_id)
             except nx.NetworkXNoCycle:
-
                 longest_path = nx.algorithms.dag_longest_path(comp)
                 for x, y in longest_path:
                     agent_id = self.grid[_LAYER_AGENTS, y, x]
@@ -861,7 +863,7 @@ class Warehouse(gym.Env):
 
     def seed(self, seed=None):
         ...
-    
+
 
 if __name__ == "__main__":
     env = Warehouse(9, 8, 3, 10, 3, 1, 5, None, None, RewardType.GLOBAL)
