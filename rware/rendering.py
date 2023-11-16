@@ -12,7 +12,7 @@ class Viewer(object):
         pass  # No specific close operation for Plotly
 
     def render(self, env, return_rgb_array=False):
-        self.fig.clear()  # Clear previous traces
+        self.fig = go.FigureWidget()
 
         # Render your environment using Plotly here
         self._draw_grid()
