@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Ellipse
 
 
-class MatplotlibViewer(object):
+class Viewer(object):
     def __init__(self, world_size):
         self.rows, self.cols = world_size
         self.grid_size = 30
