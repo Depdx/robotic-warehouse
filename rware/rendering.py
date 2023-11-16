@@ -23,7 +23,6 @@ class Viewer(object):
         self.fig.update_layout(
             xaxis=dict(range=[0, self.cols * self.grid_size]),
             yaxis=dict(range=[0, self.rows * self.grid_size]),
-            aspectmode="equal",
         )
 
         self.fig.show()
