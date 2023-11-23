@@ -428,9 +428,18 @@ class Warehouse(gym.Env):
                                                 {
                                                     "has_agent": spaces.MultiBinary(1),
                                                     "direction": spaces.Discrete(4),
-                                                    "local_message": None
-                                                    if self.msg_bits < 1
-                                                    else spaces.MultiBinary(
+                                                    "has_shelf": spaces.MultiBinary(1),
+                                                    "shelf_requested": spaces.MultiBinary(
+                                                        1
+                                                    ),
+                                                }
+                                            )
+                                            if self.msg_bits < 1
+                                            else OrderedDict(
+                                                {
+                                                    "has_agent": spaces.MultiBinary(1),
+                                                    "direction": spaces.Discrete(4),
+                                                    "local_message": spaces.MultiBinary(
                                                         self.msg_bits
                                                     ),
                                                     "has_shelf": spaces.MultiBinary(1),
