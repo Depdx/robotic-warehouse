@@ -256,7 +256,7 @@ class Warehouse(gym.Env):
 
         self.normalised_coordinates = normalised_coordinates
 
-        sa_action_space = [len(Action), *msg_bits * (2,)]
+        sa_action_space = [len(Action), *(msg_bits * (2,))]
         if len(sa_action_space) == 1:
             sa_action_space = spaces.Discrete(sa_action_space[0])
         else:
@@ -428,7 +428,9 @@ class Warehouse(gym.Env):
                                                 {
                                                     "has_agent": spaces.MultiBinary(1),
                                                     "direction": spaces.Discrete(4),
-                                                    "local_message": spaces.MultiBinary(
+                                                    "local_message": None
+                                                    if self.msg_bits < 1
+                                                    else spaces.MultiBinary(
                                                         self.msg_bits
                                                     ),
                                                     "has_shelf": spaces.MultiBinary(1),
