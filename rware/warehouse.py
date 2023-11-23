@@ -709,7 +709,10 @@ class Warehouse(gym.Env):
     def step(
         self, actions: List[Action]
     ) -> Tuple[List[np.ndarray], List[float], List[bool], Dict]:
-        assert len(actions) == len(self.agents)
+        if isinstance(actions, list):
+            assert len(actions) == len(self.agents)
+        else:
+            assert actions.shape[0] == len(self.n_agents)
 
         for agent, action in zip(self.agents, actions):
             if self.msg_bits > 0:
