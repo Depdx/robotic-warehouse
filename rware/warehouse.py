@@ -720,7 +720,8 @@ class Warehouse(gym.Env):
     def step(
         self, actions: List[Action]
     ) -> Tuple[List[np.ndarray], List[float], List[bool], Dict]:
-        print("step actions: ", actions)
+        if isinstance(actions, int):
+            actions = [actions]
         if isinstance(actions, list):
             assert len(actions) == len(self.agents)
         else:
