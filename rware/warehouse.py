@@ -858,9 +858,9 @@ class Warehouse(gym.Env):
             self.max_inactivity_steps
             and self._cur_inactive_steps >= self.max_inactivity_steps
         ) or (self.max_steps and self._cur_steps >= self.max_steps):
-            dones = self.n_agents * [True]
+            dones = np.array(self.n_agents * [True])
         else:
-            dones = self.n_agents * [False]
+            dones = np.array(self.n_agents * [False])
 
         new_obs = tuple([self._make_obs(agent) for agent in self.agents])
         info = {}
