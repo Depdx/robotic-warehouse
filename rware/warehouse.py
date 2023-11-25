@@ -726,6 +726,7 @@ class Warehouse(gym.Env):
             assert len(actions) == len(self.agents)
         else:
             assert actions.shape[0] == len(self.n_agents)
+        print(f"Step {self._cur_steps} with actions {actions}")
 
         for agent, action in zip(self.agents, actions):
             if self.msg_bits > 0:
