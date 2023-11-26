@@ -108,13 +108,6 @@ class Agent(Entity):
             return (_LAYER_AGENTS,)
 
     def req_location(self, grid_size) -> Tuple[int, int]:
-        print(f"req_action: {self.req_action}")
-        print(f"dir: {self.dir}")
-        print(f"prev_x: {self.prev_x}")
-        print(f"prev_y: {self.prev_y}")
-        print(f"x: {self.x}")
-        print(f"y: {self.y}")
-        print(f"grid_size: {grid_size}")
         if self.req_action != Action.FORWARD:
             return self.x, self.y
         elif self.dir == Direction.UP:
@@ -734,14 +727,11 @@ class Warehouse(gym.Env):
         else:
             assert actions.shape[0] == len(self.n_agents)
 
-        print(f"actions: {actions}")
-        print(f"self.agents: {self.agents}")
         for agent, action in zip(self.agents, actions):
             if self.msg_bits > 0:
                 agent.req_action = Action(action[0])
                 agent.message[:] = action[1:]
             else:
-                print(f"req_action: {Action(action)}")
                 agent.req_action = Action(action)
 
         # # stationary agents will certainly stay where they are
