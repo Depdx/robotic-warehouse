@@ -745,9 +745,7 @@ class Warehouse(gym.Env):
 
         for agent in self.agents:
             start = agent.x, agent.y
-            print(agent.x, agent.y)
             target = agent.req_location(self.grid_size)
-            print(agent.x, agent.y)
 
             if (
                 agent.carrying_shelf
