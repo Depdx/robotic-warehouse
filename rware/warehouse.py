@@ -116,7 +116,6 @@ class Agent(Entity):
         print(f"y: {self.y}")
         print(f"grid_size: {grid_size}")
         if self.req_action != Action.FORWARD:
-
             return self.x, self.y
         elif self.dir == Direction.UP:
             return self.x, max(0, self.y - 1)
@@ -735,11 +734,14 @@ class Warehouse(gym.Env):
         else:
             assert actions.shape[0] == len(self.n_agents)
 
+        print(f"actions: {actions}")
+        print(f"self.agents: {self.agents}")
         for agent, action in zip(self.agents, actions):
             if self.msg_bits > 0:
                 agent.req_action = Action(action[0])
                 agent.message[:] = action[1:]
             else:
+                print(f"req_action: {Action(action)}")
                 agent.req_action = Action(action)
 
         # # stationary agents will certainly stay where they are
