@@ -112,8 +112,11 @@ class Agent(Entity):
         print(f"dir: {self.dir}")
         print(f"prev_x: {self.prev_x}")
         print(f"prev_y: {self.prev_y}")
+        print(f"x: {self.x}")
+        print(f"y: {self.y}")
+        print(f"grid_size: {grid_size}")
         if self.req_action != Action.FORWARD:
-            
+
             return self.x, self.y
         elif self.dir == Direction.UP:
             return self.x, max(0, self.y - 1)
